@@ -54,10 +54,10 @@ The table below summarizes the end-to-end inference speedup for various Large La
    wget "https://huggingface.co/SVD-Flash/llama-3.2-1b_0.8_svd/resolve/main/llama-3.2-1b_svd_0.8_weights.safetensors?download=true" \
      -O model.safetensors   
 
-5. Download the v0.0.1 repo
+5. Download the repo
    ```
    cd ~   
-   git clone -b v0.0.1 --single-branch https://github.com/dinghongsong/SVD-Flash.git
+   https://github.com/Jerry2423/SVD-Flash.git
 
 
 5. Testing Example (Without Tensor Parallelism): Llama inference with logit matching accuracy check using custom error tolerances

@@ -1,6 +1,29 @@
-## SVD-Flash
+# SVD-Flash: Efficient LLM Inference via SVD Compression and Tiling on AWS Trainium
+
+## Overview
+SVD-Flash is a high-performance matrix multiplication (matmul) kernel for Large Language Model (LLM) inference on AWS Trainium. It is a combination of Singular Value Decomposition (SVD) compression and architecture-specific optimizations to accelerate LLM inference. SVD-Flash is designed to reduce data movement across the software-managed memory hierarchy, maximize SRAM bandwidth, and avoid expensive matrix transposes. The matrix multiplication kernel, NeuronMM, is open-sourced and can be found in our [Kernel repository](https://github.com/Jerry2423/neuron-mm). This repository provides the implementation for running inference with SVD-Flash.
 
 ![SVD-Flash: Efficient LLM inference via SVD Compression and Tiling on AWS Trainium](./images/svd_flash_1.png)
+
+## Model Acceleration
+We evaluated SVD-Flash with nine datasets and four recent LLMs, and the results show that our system largely outperforms the state-of-the-art models implemented by AWS on Trainium.
+
+- **Kernel-Level Speedup:** At the matmul kernel level, SVD-Flash achieves an average 1.35x speedup, with a maximum of 2.22x.
+- **End-to-End Inference Speedup:** This translates to an average 1.66x speedup for end-to-end LLM inference, with a maximum of 2.49x.
+- **Reduced Memory Traffic:** SVD-Flash significantly reduces memory traffic. Compared to the NKI XW baseline, it achieves a 4.78x reduction in HBM-SBUF memory traffic at a sequence length of 32K.
+- **High Tensor Engine Utilization:** SVD-Flash sustains high tensor engine active time and Model Float Utilization (MFU), with the tensor engine MFU reaching 85.20%, compared to 65.24% for the standard sequential kernel.
+
+The table below summarizes the end-to-end inference speedup for various Large Language Models (LLMs) using NeuronMM at different compression ratios.
+| Model | Compression Ratio | Average Speedup (↑) |
+| :--- | :--- | :--- |
+| Llama-3.2-1B | 0.10  | 1.21x  |
+| | 0.20  | 1.63x  |
+| Llama-3.2-3B | 0.10  | 1.88x  |
+| | 0.20  | 2.49x  |
+| Qwen-3-1.7B | 0.10  | 1.41x  |
+| | 0.20  | 1.74x  |
+| Qwen-3-4B | 0.10  | 1.28x  |
+| | 0.20  | 1.67x  |
 
 ## Setup Steps
 
